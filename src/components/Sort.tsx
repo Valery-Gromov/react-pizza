@@ -1,23 +1,36 @@
 import React from 'react';
+import { OptionsNamesEnum } from '../redux/slices/filterSlice';
 
-export const optionsList = [
-  { option: 'popularity', optionName: 'rating' },
-  { option: 'price', optionName: 'price' },
-  { option: 'alphabet', optionName: 'title' },
+type OptionsItem = {
+  option: string;
+  optionName: OptionsNamesEnum;
+}
+
+type SortProps = {
+  activeSortOption: string;
+  onClickOption: any;
+  sortDirection: string;
+  onClickSortDirection: any
+}
+
+export const optionsList:OptionsItem[] = [
+  { option: 'popularity', optionName: OptionsNamesEnum.RATING },
+  { option: 'price', optionName: OptionsNamesEnum.PRICE },
+  { option: 'alphabet', optionName: OptionsNamesEnum.TITLE },
 ];
 
-const Sort = ({ activeSortOption, onClickOption, sortDirection, onClickSortDirection }) => {
-  const [open, setOpen] = React.useState(false);
-  const sortRef = React.useRef();
+const Sort:React.FC<SortProps> = ({ activeSortOption, onClickOption, sortDirection, onClickSortDirection }) => {
+  const [open, setOpen] = React.useState<boolean>(false);
+  const sortRef = React.useRef<HTMLDivElement>(null);
 
-  const onClickOnOptionsItem = (obj) => {
+  const onClickOnOptionsItem = (obj: OptionsItem) => {
     onClickOption(obj);
     setOpen(false);
   };
 
-  const handleOutiseClose = (e) => {
+  const handleOutiseClose = (e: MouseEvent) => {
     const composed = e.composedPath()
-      if (!composed.includes(sortRef.current)) {
+      if (sortRef.current && !composed.includes(sortRef.current)) {
         setOpen(false);
       }
   }

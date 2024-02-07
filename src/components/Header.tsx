@@ -7,23 +7,23 @@ import pizzaLogo from '../assets/images/pizzaLogo.svg';
 
 import { setTextFilter } from '../redux/slices/filterSlice';
 
-const Header = () => {
-  const [inputValue, setInputValue] = React.useState('');
-  const textFilter = useSelector((state) => state.filter.textFilter);
-  const { items, totalPrice, totalCount } = useSelector(state => state.cart);
+const Header: React.FC = () => {
+  const [inputValue, setInputValue] = React.useState<string>('');
+  const textFilter = useSelector((state: any) => state.filter.textFilter);
+  const { items, totalPrice, totalCount } = useSelector((state: any) => state.cart);
 
   const dispatch = useDispatch();
-  const searchInputRef = React.useRef();
+  const searchInputRef = React.useRef<HTMLInputElement>(null);
 
   const textFilterDebounce = React.useCallback(
-    debounce((value) => {
+    debounce((value: string) => {
       console.log(value);
       dispatch(setTextFilter(value))
     }, 250),
     [],
   );
 
-  const onChangeInput = (e) => {
+  const onChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     textFilterDebounce(e.target.value);
   };
@@ -31,7 +31,7 @@ const Header = () => {
   const onClickCross = () => {
     setInputValue('');
     dispatch(setTextFilter(''));
-    searchInputRef.current.focus();
+    searchInputRef.current?.focus();
   };
 
   return (

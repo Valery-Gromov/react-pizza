@@ -1,4 +1,3 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import '../scss/app.scss';
@@ -9,7 +8,6 @@ import Cart from '../pages/Cart';
 import NotFoundPage from '../pages/NotFoundPage';
 
 function App() {
-  
 
   return (
     <div className="App">

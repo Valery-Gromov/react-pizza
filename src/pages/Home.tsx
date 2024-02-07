@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import qs from 'qs';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Catigories from '../components/Catigories';
@@ -15,19 +15,20 @@ import {
   setActiveSortOption,
   setFilter,
 } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzaSlice';
+import { fetchPizzas, SearchPizzaParams } from '../redux/slices/pizzaSlice';
+import { useAppDispatch } from '../redux/store';
 
-const Home = () => {
-  const dispatch = useDispatch();
+const Home: React.FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
 
   const { selectedCategory, sortDirection, activeSortOption, textFilter } = useSelector(
-    (state) => state.filter,
+    (state: any) => state.filter,
   );
-  const { items, status } = useSelector((state) => state.pizza);
+  const { items, status } = useSelector((state: any) => state.pizza);
 
   const getPizzas = () => {
     const category = selectedCategory > 0 ? `category=${selectedCategory}` : '';
@@ -55,13 +56,15 @@ const Home = () => {
 
   React.useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
-      const activeSortOption = optionsList.find((obj) => obj.optionName === params.sortOption);
+      const params = (qs.parse(window.location.search.substring(1)) as unknown) as SearchPizzaParams;
+      const activeSortOption = optionsList.find((obj) => obj.optionName === params.sortBy);
 
       dispatch(
         setFilter({
-          ...params,
-          activeSortOption,
+          selectedCategory: Number(params.category),
+          sortDirection: Boolean(params.orderDirection),
+          activeSortOption: activeSortOption || optionsList[0],
+          textFilter: params.searchFilter
         }),
       );
 
@@ -88,7 +91,7 @@ const Home = () => {
         />
         <Sort
           activeSortOption={activeSortOption.option}
-          onClickOption={(obj) => dispatch(setActiveSortOption(obj))}
+          onClickOption={(obj: any) => dispatch(setActiveSortOption(obj))}
           sortDirection={sortDirection}
           onClickSortDirection={() => dispatch(setSortDirection(!sortDirection))}
         />
@@ -97,7 +100,7 @@ const Home = () => {
       <div className="content__items">
         {status === 'loading'
           ? [...new Array(6)].map((_, i) => <Skeleton key={i} />)
-          : items.map((item) => {
+          : items.map((item: any) => {
               return <PizzaBlock key={item.id} {...item} />;
             })}
       </div>
