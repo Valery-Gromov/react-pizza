@@ -5,13 +5,23 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import pizzaLogo from '../assets/images/pizzaLogo.svg';
 
-import { setTextFilter } from '../redux/slices/filterSlice';
 import { RootState } from '../redux/store';
+import { setTextFilter } from '../redux/filter/slice';
 
 const Header: React.FC = () => {
   const [inputValue, setInputValue] = React.useState<string>('');
   const textFilter = useSelector((state: RootState) => state.filter.textFilter);
   const { items, totalPrice, totalCount } = useSelector((state: RootState) => state.cart);
+  const isMounted = React.useRef(false);
+
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const json = JSON.stringify(items);
+      localStorage.setItem('cart', json);
+    }
+
+    isMounted.current = true;
+  }, [items]);
 
   const dispatch = useDispatch();
   const searchInputRef = React.useRef<HTMLInputElement>(null);

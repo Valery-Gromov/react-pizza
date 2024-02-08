@@ -1,5 +1,4 @@
 import React from 'react';
-import { useWhyDidYouUpdate } from 'ahooks';
 
 type CatigoriesProps = {
   selectedCategory: number;

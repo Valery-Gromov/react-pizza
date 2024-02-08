@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addItem, CartItemType, handleTotalCount } from '../../redux/slices/cartSlice';
+import { addItem, handleTotalCount } from '../../redux/cart/slice';
+import { CartItemType } from '../../redux/cart/types';
 import { RootState } from '../../redux/store';
 
 const typesNames: string[] = ['thin', 'traditional'];

@@ -1,5 +1,5 @@
 import React from 'react';
-import { OptionsNamesEnum } from '../redux/slices/filterSlice';
+import { OptionsNamesEnum } from '../redux/filter/types';
 
 export type OptionsItem = {
   option: string;

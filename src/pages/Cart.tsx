@@ -1,8 +1,8 @@
 import React from 'react';
 import CartItem from '../components/CartItem';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearSort, handleTotalCount } from '../redux/slices/cartSlice';
 import { RootState } from '../redux/store';
+import { clearSort, handleTotalCount } from '../redux/cart/slice';
 
 const Cart: React.FC = () => {
   const dispatch = useDispatch();

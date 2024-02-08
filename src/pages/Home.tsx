@@ -9,15 +9,10 @@ import Sort, { OptionsItem, optionsList } from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import { RootState } from '../redux/store';
-
-import {
-  setSelectedCategory,
-  setSortDirection,
-  setActiveSortOption,
-  setFilter,
-} from '../redux/slices/filterSlice';
-import { fetchPizzas, SearchPizzaParams } from '../redux/slices/pizzaSlice';
 import { useAppDispatch } from '../redux/store';
+import { fetchPizzas } from '../redux/pizza/asyncActions';
+import { setActiveSortOption, setFilter, setSelectedCategory, setSortDirection } from '../redux/filter/slice';
+import { SearchPizzaParams } from '../redux/pizza/types';
 
 const Home: React.FC = () => {
   const dispatch = useAppDispatch();
