@@ -1,11 +1,12 @@
 import React from 'react';
+import { useWhyDidYouUpdate } from 'ahooks';
 
 type CatigoriesProps = {
   selectedCategory: number;
   onClickCategory: (i: number) => void;
 }
 
-const Catigories: React.FC<CatigoriesProps> = ({ selectedCategory, onClickCategory }) => {
+const Catigories: React.FC<CatigoriesProps> = React.memo(({ selectedCategory, onClickCategory }) => {
   const categories = ['All', 'Meat', 'Vegetarian', 'Grill', 'Hot', 'Closed'];
 
   return (
@@ -24,6 +25,6 @@ const Catigories: React.FC<CatigoriesProps> = ({ selectedCategory, onClickCatego
       </ul>
     </div>
   );
-};
+})
 
 export default Catigories;

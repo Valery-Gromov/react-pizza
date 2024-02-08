@@ -6,11 +6,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import pizzaLogo from '../assets/images/pizzaLogo.svg';
 
 import { setTextFilter } from '../redux/slices/filterSlice';
+import { RootState } from '../redux/store';
 
 const Header: React.FC = () => {
   const [inputValue, setInputValue] = React.useState<string>('');
-  const textFilter = useSelector((state: any) => state.filter.textFilter);
-  const { items, totalPrice, totalCount } = useSelector((state: any) => state.cart);
+  const textFilter = useSelector((state: RootState) => state.filter.textFilter);
+  const { items, totalPrice, totalCount } = useSelector((state: RootState) => state.cart);
 
   const dispatch = useDispatch();
   const searchInputRef = React.useRef<HTMLInputElement>(null);
@@ -18,7 +19,7 @@ const Header: React.FC = () => {
   const textFilterDebounce = React.useCallback(
     debounce((value: string) => {
       console.log(value);
-      dispatch(setTextFilter(value))
+      dispatch(setTextFilter(value));
     }, 250),
     [],
   );

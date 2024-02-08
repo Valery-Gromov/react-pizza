@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addItem, CartItemType, handleTotalCount } from '../../redux/slices/cartSlice';
+import { RootState } from '../../redux/store';
 
 const typesNames: string[] = ['thin', 'traditional'];
 
@@ -16,7 +17,7 @@ type PizzaBlockProps = {
 const PizzaBlock: React.FC<PizzaBlockProps> = ({ id, title, price, imageUrl, types, sizes }) => {
   const dispatch = useDispatch();
 
-  const cardItem = useSelector((state: any) => state.cart.items.find((obj: any) => obj.id === id));
+  const cardItem = useSelector((state: RootState) => state.cart.items.find((obj) => obj.id === id));
   const [activeSizeIndex, setActiveSizeIndex] = React.useState(0);
   const [activeTypeIndex, setActiveTypeIndex] = React.useState(0);
 

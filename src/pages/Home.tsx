@@ -5,9 +5,10 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import Catigories from '../components/Catigories';
-import Sort, { optionsList } from '../components/Sort';
+import Sort, { OptionsItem, optionsList } from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
+import { RootState } from '../redux/store';
 
 import {
   setSelectedCategory,
@@ -26,9 +27,9 @@ const Home: React.FC = () => {
   const isMounted = React.useRef(false);
 
   const { selectedCategory, sortDirection, activeSortOption, textFilter } = useSelector(
-    (state: any) => state.filter,
+    (state: RootState) => state.filter,
   );
-  const { items, status } = useSelector((state: any) => state.pizza);
+  const { items, status } = useSelector((state: RootState) => state.pizza);
 
   const getPizzas = () => {
     const category = selectedCategory > 0 ? `category=${selectedCategory}` : '';
@@ -38,6 +39,21 @@ const Home: React.FC = () => {
 
     dispatch(fetchPizzas({ category, sortBy, orderDirection, searchFilter }));
   };
+
+  const handleChangeCategory = React.useCallback(
+    (i: number) => dispatch(setSelectedCategory(i)),
+    [],
+  );
+
+  const handleClickSortOption = React.useCallback(
+    (obj: OptionsItem) => dispatch(setActiveSortOption(obj)),
+    [],
+  );
+
+  const handleClickSortDirection = React.useCallback(
+    () => dispatch(setSortDirection(!sortDirection)),
+    [],
+  );
 
   React.useEffect(() => {
     if (isMounted.current) {
@@ -56,7 +72,7 @@ const Home: React.FC = () => {
 
   React.useEffect(() => {
     if (window.location.search) {
-      const params = (qs.parse(window.location.search.substring(1)) as unknown) as SearchPizzaParams;
+      const params = qs.parse(window.location.search.substring(1)) as unknown as SearchPizzaParams;
       const activeSortOption = optionsList.find((obj) => obj.optionName === params.sortBy);
 
       dispatch(
@@ -64,7 +80,7 @@ const Home: React.FC = () => {
           selectedCategory: Number(params.category),
           sortDirection: Boolean(params.orderDirection),
           activeSortOption: activeSortOption || optionsList[0],
-          textFilter: params.searchFilter
+          textFilter: params.searchFilter,
         }),
       );
 
@@ -85,22 +101,19 @@ const Home: React.FC = () => {
   return (
     <>
       <div className="content__top">
-        <Catigories
-          selectedCategory={selectedCategory}
-          onClickCategory={(i) => dispatch(setSelectedCategory(i))}
-        />
+        <Catigories selectedCategory={selectedCategory} onClickCategory={handleChangeCategory} />
         <Sort
           activeSortOption={activeSortOption.option}
-          onClickOption={(obj: any) => dispatch(setActiveSortOption(obj))}
-          sortDirection={sortDirection}
-          onClickSortDirection={() => dispatch(setSortDirection(!sortDirection))}
+          onClickOption={handleClickSortOption}
+          sortDirection={String(sortDirection)}
+          onClickSortDirection={handleClickSortDirection}
         />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
         {status === 'loading'
           ? [...new Array(6)].map((_, i) => <Skeleton key={i} />)
-          : items.map((item: any) => {
+          : items.map((item) => {
               return <PizzaBlock key={item.id} {...item} />;
             })}
       </div>

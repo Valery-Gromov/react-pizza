@@ -1,16 +1,16 @@
 import React from 'react';
 import { OptionsNamesEnum } from '../redux/slices/filterSlice';
 
-type OptionsItem = {
+export type OptionsItem = {
   option: string;
   optionName: OptionsNamesEnum;
 }
 
 type SortProps = {
   activeSortOption: string;
-  onClickOption: any;
+  onClickOption: (obj: OptionsItem) => void;
   sortDirection: string;
-  onClickSortDirection: any
+  onClickSortDirection: () => void;
 }
 
 export const optionsList:OptionsItem[] = [
@@ -19,7 +19,7 @@ export const optionsList:OptionsItem[] = [
   { option: 'alphabet', optionName: OptionsNamesEnum.TITLE },
 ];
 
-const Sort:React.FC<SortProps> = ({ activeSortOption, onClickOption, sortDirection, onClickSortDirection }) => {
+const Sort:React.FC<SortProps> = React.memo(({ activeSortOption, onClickOption, sortDirection, onClickSortDirection }) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const sortRef = React.useRef<HTMLDivElement>(null);
 
@@ -80,6 +80,6 @@ const Sort:React.FC<SortProps> = ({ activeSortOption, onClickOption, sortDirecti
       )}
     </div>
   );
-};
+})
 
 export default Sort;
