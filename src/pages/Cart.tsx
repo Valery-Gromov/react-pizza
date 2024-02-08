@@ -31,7 +31,7 @@ const Cart: React.FC = () => {
       <div className="cart__bottom">
         <div className="cart__bottom-details">
           <span>
-            Total pizzas: <b>{totalCount} шт.</b>{' '}
+            Total pizzas: <b>{totalCount} </b>{' '}
           </span>
           <span>
             Order amount: <b>{totalPrice} ₽</b>{' '}
